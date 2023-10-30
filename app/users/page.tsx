@@ -1,3 +1,5 @@
+'use client'
+
 import EmptyState from "../components/EmptyState";
 import Sidebar from "../components/sidebar/Sidebar";
 
