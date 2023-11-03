@@ -67,7 +67,6 @@ export async function POST(
         if (existingConvos[0]){
             return NextResponse.json(existingConvos[0])
         }
-        console.log('new convo')
         const newConvo = await prisma.conversation.create({
             data: {
                 users: {
