@@ -22,6 +22,7 @@ const getConversationById = async (
 
         return conversation
     } catch(error: any){
+        console.log(error)
         return null
     }
 }

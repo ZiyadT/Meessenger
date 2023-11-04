@@ -1,6 +1,7 @@
 import getCurrentUser from "../../actions/getCurrentUser";
 import {NextResponse} from 'next/server'
 import prisma from "@/app/libs/prismadb"
+import { pusherServer } from "@/app/libs/pusher";
 
 export async function POST(
     request: Request
@@ -44,9 +45,16 @@ export async function POST(
                 }
             })
 
+            newConvo.users.forEach((user) => {
+                if (user.email){
+                    pusherServer.trigger(user.email, 'conversation:new', newConvo)
+                }
+            })
+
             return NextResponse.json(newConvo)
         }
 
+        console.log('exists')
         const existingConvos = await prisma.conversation.findMany({
             where: {
                 OR: [
@@ -82,6 +90,12 @@ export async function POST(
             },
             include: {
                 users: true
+            }
+        })
+
+        newConvo.users.map((user) => {
+            if (user.email){
+                pusherServer.trigger(user.email, 'conversation:new', newConvo)
             }
         })
 

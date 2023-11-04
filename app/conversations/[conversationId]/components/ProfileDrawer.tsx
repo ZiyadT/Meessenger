@@ -10,6 +10,7 @@ import { BsDatabaseAdd } from "react-icons/bs"
 import {IoClose, IoTrash} from 'react-icons/io5'
 import Confirm from "./Confirm"
 import AvatarGroup from "@/app/components/AvatarGroup"
+import useActiveList from "@/app/hooks/useActiveList"
 
 interface Props {
     isOpen: boolean
@@ -25,6 +26,8 @@ const ProfileDrawer: React.FC<Props> = ({
     data
 }) => {
     const otherUser = useOtherUser(data)
+    const {members} = useActiveList()
+    const isActive = members.indexOf(otherUser?.email!) !== -1
     const [confirm, setConfirm] = useState(false)
     const joinedDate = useMemo(() => {
         return format(new Date(otherUser.createdAt), 'PP')
@@ -37,7 +40,7 @@ const ProfileDrawer: React.FC<Props> = ({
             return `${data.users.length} members`
         }
 
-        return 'Active'
+        return isActive ? 'Active' : 'Offline'
     }, [data])
     return ( 
         <>

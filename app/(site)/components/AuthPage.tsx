@@ -19,13 +19,13 @@ const AuthPage = () => {
     const [loading, setLoading] = useState(false)
 
     useEffect(() => {
-        if (session?.status == 'authenticated'){
+        if (session?.status === 'authenticated'){
             router.push('/users')
         }
     }, [session?.status])
 
     const toggleVariant = useCallback(() => {
-        if (variant == "LOGIN"){
+        if (variant === "LOGIN"){
             setVariant("REGISTER")
         }
         else{
@@ -50,7 +50,7 @@ const AuthPage = () => {
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
         setLoading(true)
         
-        if (variant == 'REGISTER'){
+        if (variant === 'REGISTER'){
             axios.post('/api/register', data).then(
                 () => signIn('credentials', data)
             ).catch(
@@ -60,7 +60,7 @@ const AuthPage = () => {
             )
         }
         
-        if (variant == 'LOGIN'){
+        if (variant === 'LOGIN'){
             signIn('credentials', {...data, redirect: false}).then(
                 (callback) => {
                     if (callback?.error){
@@ -92,13 +92,13 @@ const AuthPage = () => {
         <div className = "mt-8 sm:mx-auto sm:w-full sm:max-w-md">
             <div className = "bg-white px-4 py-8 shadow sm-rounded-lg sm:px-10">
                 <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
-                    {variant == 'REGISTER' && (
+                    {variant === 'REGISTER' && (
                         <Input label="Name" id="name" register={register} errors={errors} disabled={loading}></Input>
                     )}
                     <Input label="Email" id="email" type="email" register={register} errors={errors} disabled={loading}></Input>
                     <Input label="Password" id="password" type="password" register={register} errors={errors} disabled={loading}></Input>
                     <div>
-                        <Button disabled={loading} fullWidth type="submit">{variant == 'LOGIN' ? "Sign in" : "Register"}</Button>
+                        <Button disabled={loading} fullWidth type="submit">{variant === 'LOGIN' ? "Sign in" : "Register"}</Button>
                     </div>
                 </form>
                 <div className="mt-3 text-center">
@@ -109,8 +109,8 @@ const AuthPage = () => {
                     <AuthSocialButton icon={BsGoogle} onClick={() => socialAction('google')}></AuthSocialButton>
                 </div>
                 <div className="mt-3 flex justify-center gap-2 text-sm px-2">
-                    <div>{variant == "LOGIN" ? "Need an account?" : "Have an account?"}</div>
-                    <div onClick={toggleVariant} className="underline cursor-pointer">{variant == "LOGIN" ? "Sign up" : "Log in"}</div>
+                    <div>{variant === "LOGIN" ? "Need an account?" : "Have an account?"}</div>
+                    <div onClick={toggleVariant} className="underline cursor-pointer">{variant === "LOGIN" ? "Sign up" : "Log in"}</div>
                 </div>
             </div>
         </div> 

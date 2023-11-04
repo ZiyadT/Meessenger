@@ -20,7 +20,7 @@ const MessageBox: React.FC<Props> = ({
 }) => {
     const session = useSession()
     const [imageOpen, setImageOpen] = useState(false)
-    const isOwn = session?.data?.user?.email == data?.sender?.email
+    const isOwn = session?.data?.user?.email === data?.sender?.email
     const seenList = (data.seen || []).filter((user) => user.email != data?.sender?.email).map((user) => user.name).join(', ')
     
     const container = clsx("flex gap-3 p-4", isOwn && "justify-end")
