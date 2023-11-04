@@ -30,7 +30,6 @@ const ConversationList: React.FC<Props> = ({
     const pusherKey = useMemo(() => {
         return session.data?.user?.email
     }, [session.data?.user?.email])
-
     useEffect(() => {
         if (!pusherKey){
             return
@@ -48,18 +47,17 @@ const ConversationList: React.FC<Props> = ({
         }
 
         const updateHandler = (conversation: FullConversationType) => {
-            console.log('update handler')
             setItems((current) => current.map((currentConversation) => {
-                if (currentConversation.id === conversation.id) {
-                    return {
-                        ...conversation,
-                        messages: conversation.messages
-                    }
-                }
-
-                return currentConversation
-            }))
-        }
+              if (currentConversation.id === conversation.id) {
+                return {
+                  ...currentConversation,
+                  messages: conversation.messages
+                };
+              }
+      
+              return currentConversation;
+            }));
+          }
 
         const removeHandler = (conversation: FullConversationType) => {
             setItems((current) => {
